@@ -4,6 +4,10 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 
 public class GameFile extends Application {
 
@@ -33,18 +37,31 @@ public class GameFile extends Application {
 			}
 		}
 		
-		// TODO: You must place ten different mines on random locations of the board.
+		// You must place a number of different mines on random locations of the board.
 		int minesPlaced = 0;
 		while(minesPlaced < 30) {
 			int row = (int)(Math.random() * 20);
 			int col = (int)(Math.random() * 20);
-			// make sure you don't place a mine in the same square twice
+			// make sure you don't place a mine in the same square twice,
+			// so make the colors very slightly different.
 			if (!buttons[row][col].getStyle().equals("-fx-background-color: #00CCCD")) {
 				buttons[row][col].setStyle("-fx-background-color: #00CCCD");
-				buttons[row][col].setOnAction(e -> {
-					buttons[row][col].setStyle("-fx-background-color: Black");
-					// if you click on a mine, the game is over.
-				});
+				buttons[row][col].addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		            @Override
+		            public void handle(MouseEvent event) {
+		            	// Action #1: Left click.
+		                if(event.getButton() == MouseButton.PRIMARY){
+		                	buttons[row][col].setStyle("-fx-background-color: Black");
+		                }
+		                // Action #2: Right click.
+		                else if(event.getButton() == MouseButton.SECONDARY) {
+		                	// This means you want to place a flag here.
+		                	// TODO: What if it's already pink? How do you unclick?
+		                	// Check the original color, then store it?
+		                	buttons[row][col].setStyle("-fx-background-color: Pink");
+		                }
+		            }
+		        });
 				minesPlaced++;
 			}
 		}
@@ -74,10 +91,14 @@ public class GameFile extends Application {
 	// DESIGN DECISION: Yellow buttons are buttons that are revealed.
 	// FOR RIGHT NOW: Red buttons are mines.
 	public void styleSet(Button[][] buttons, int i, int j) {
+		// TODO: differentiate between actions.
+		// ACTION #1: Left click.
 		buttons[i][j].setOnAction(e -> {
 			reveal(buttons, i, j);
 			buttons[i][j].setStyle("-fx-background-color: Yellow");
 		});
+		// ACTION #2: Right click.
+		// Here, you want to place a flag.
 	}
 	
 	// Make sure you're revealing buttons that are actually on the board.
@@ -143,7 +164,7 @@ public class GameFile extends Application {
         }
             
         if(bombCount == 0){
-        	// place a 'B' marker in the box
+        	// place a 'B' marker in the box (means you were here before)
         	buttons[rownum][colnum].setStyle("-fx-background-color: Yellow");
             for(int j = 0; j < tuples.length; j++){
             	int rowAdd = tuples[j][0];
