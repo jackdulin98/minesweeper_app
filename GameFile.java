@@ -74,20 +74,7 @@ public class GameFile extends Application {
 		            	// Action #1: If you left click on a mine, it turns black.
 		                if(event.getButton() == MouseButton.PRIMARY){
 		                	buttons[row][col].setStyle("-fx-background-color: Black");
-		                	// TODO: Get another window to pop up a game over message.
-		                	Stage innerStage = new Stage();
-		                	Label message = new Label("You lost the game!");
-		                	message.setFont(new Font(40));
-		                	BorderPane dialog = new BorderPane();
-		                	Scene innerScene = new Scene(dialog, 500, 150);
-		                	dialog.setCenter(message);
-		                	innerStage.setScene(innerScene);
-		                	innerStage.setTitle("Loser's Window");
-		                	innerStage.show();
-		                	/*
-		                	Platform.exit();
-		                	System.out.println("You're a loser!");
-		                	*/
+		                	gameOver();
 		                }
 		                // Action #2: If you right click on a mine, it turns pink.
 		                else if(event.getButton() == MouseButton.SECONDARY) {
@@ -191,6 +178,19 @@ public class GameFile extends Application {
 			return true;
 		}
 		return false;
+	}
+	
+	// Initiate the game over message.
+	public void gameOver() {
+    	Stage innerStage = new Stage();
+    	Label message = new Label("You lost the game!");
+    	message.setFont(new Font(40));
+    	BorderPane dialog = new BorderPane();
+    	Scene innerScene = new Scene(dialog, 500, 150);
+    	dialog.setCenter(message);
+    	innerStage.setScene(innerScene);
+    	innerStage.setTitle("Loser's Window");
+    	innerStage.show();
 	}
 	
 	// Make sure you're revealing buttons that are actually on the board.
