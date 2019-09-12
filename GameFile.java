@@ -1,7 +1,5 @@
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +21,7 @@ public class GameFile extends Application {
 
 	@Override
 	// This is where the program begins execution after being launched.
+	// TODO: If you right click on a yellow square, nothing should happen at all.
 	public void start(Stage primaryStage) throws Exception {
 		GridPane root = new GridPane();				// want a GridPane, ideal layout for 2D button array
 		Scene scene = new Scene(root, 800, 800);	// want an 800px by 800px window
@@ -140,8 +139,7 @@ public class GameFile extends Application {
                 	buttons[i][j].setStyle("-fx-background-color: Yellow");
                 	// Here, check to see if you won the game. When doing this, only look for the number of yellow squares.
                 	if(checkWinner(buttons)) {
-                		Platform.exit();
-                		System.out.println("Hooray! You won the game!");
+                		youWon();
                 	}
                 }
                 // Action #2: If you right click on a mine, it turns pink.
@@ -181,6 +179,7 @@ public class GameFile extends Application {
 	}
 	
 	// Initiate the game over message.
+	// TODO: After the game is over, you should have another window that gives the option to reset the board.
 	public void gameOver() {
     	Stage innerStage = new Stage();
     	Label message = new Label("You lost the game!");
@@ -190,6 +189,19 @@ public class GameFile extends Application {
     	dialog.setCenter(message);
     	innerStage.setScene(innerScene);
     	innerStage.setTitle("Loser's Window");
+    	innerStage.show();
+	}
+	
+	// Initiate the winning message.
+	public void youWon() {
+    	Stage innerStage = new Stage();
+    	Label message = new Label("You won the game! Congratulations!");
+    	message.setFont(new Font(40));
+    	BorderPane dialog = new BorderPane();
+    	Scene innerScene = new Scene(dialog, 900, 150);
+    	dialog.setCenter(message);
+    	innerStage.setScene(innerScene);
+    	innerStage.setTitle("Winner's Window");
     	innerStage.show();
 	}
 	
