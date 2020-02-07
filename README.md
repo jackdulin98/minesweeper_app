@@ -8,3 +8,6 @@ A: Store them in a 2D array so they can be accessed by the proper indices.
 
 Q: How do you differentiate between left and right clicks by the mouse?
 A: Use an event handler.
+
+Q: How do you store the fastest times you have played.
+A: Use a file for persistence. (File I/O will be required.)
