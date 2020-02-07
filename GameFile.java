@@ -145,6 +145,7 @@ public class GameFile extends Application {
                 // Action #2: If you right click on a mine, it turns pink.
                 else if(event.getButton() == MouseButton.SECONDARY) {
                 	// This means you want to place a flag here.
+                	// NOTE: You cannot put a flag on an uncovered mine.
                 	if(buttons[i][j].getStyle().equals("-fx-background-color: Pink")) {
                 		if(uncovered[i][j] == true) {
                 			buttons[i][j].setStyle("-fx-background-color: Yellow");
@@ -152,9 +153,6 @@ public class GameFile extends Application {
                 		else {
                 			buttons[i][j].setStyle("-fx-background-color: Gray");
                 		}
-                	}
-                	else {
-                		buttons[i][j].setStyle("-fx-background-color: Pink");
                 	}
                 }
             }
